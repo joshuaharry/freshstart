@@ -19,7 +19,7 @@ the stack are now worth revisiting:
 - File systems
 - Web Browsers
 
-Building new, better things is *easy* now in a way that it never was before;
+Building new, better things is *feasible* now in a way that it never was before;
 what happens if you dare to question some of these interfaces and rebuild
 them from the ground up?
 
