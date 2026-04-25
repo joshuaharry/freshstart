@@ -1,0 +1,55 @@
+ARM64 (AArch64) Reference Sheet
+
+Instructions                                   Addressing Modes
+mov D, S             D = S
+ldr D, [R]           D = Mem[R]                Register (general-purpose)
+ldp D1, D2, [R]      D1 = Mem[R]               The name of the register, for example:
+                     D2 = Mem[R + 8]           x0 or w0 ... x28 or w28
+str S, [R]           Mem[R] = S
+                                               Note: Registers x29 - x31 are reserved by convention.
+stp S1, S2, [R]      Mem[R] = S1
+                                                      x29: frame pointer
+                     Mem[R + 8] = S2                  x30: link register
+add D, O1, O2        D = O1 + O2                      x31: stack pointer
+sub D, O1, O2        D = O1 - O2
+neg D, O1            D = -(O1)                 Immediate (constant)
+mul D, O1, O2        D = O1 * O2               A number prefixed with #. Can be decimal or hex:
+udiv D, O1, O2       D = O1 / O2 (unsigned)    #8    #0x1F      #-32
+sdiv D, O1, O2       D = O1 / O2 (signed)
+lsl D, R, #v         D = R << v                Memory
+                                               Access memory at the address stored in a register:
+lsr D, R, #v         D = R >> v (logical)
+                                               [x0]
+asr D, R, #v         D = R >> v (arithmetic)
+and D, O1, O2        D = O1 & O2               Access memory at the address stored in a register plus a
+orr D, O1, O2        D = O1 | O2               constant:
+eor D, O1, O2        D = O1 ^ O2               [x0, #8]
+mvn D, O             D = ~O
+cmp O1, O2           Sets CCs: O1 - O2         Access memory at the address stored in a register plus
+tst O1, O2           Sets CCs: O1 & O2         another register:
+                                               [x0, x1]
+br address           PC = address
+cbz R, label         If R == 0, PC = addr of   Condition Codes
+                     label
+cbnz R, label        If R != 0, PC = addr of   Z: Zero
+                     label                     N: Negative
+b label              branch                    C: Carry (unsigned overflow)
+                     (PC = address of label)   V: (Signed) overflow
+b.eq label           branch if equal
+b.ne label           branch if not equal       Component Registers
+b.mi label           branch if negative
+                                               64-bit x-prefixed registers can be accessed as 32-bit
+b.pl label           branch if non-negative
+                                               registers with a w-prefix:
+b.gt label           branch if greater than
+b.ge label           branch if greater or
+                     equal
+b.lt label           branch if less than
+b.le label           branch if less or equal
+bl address <fname>   x30 = PC + 4
+                     PC = address
+blr R <fname>        x30 = PC + 4
+                     PC = R
+ret                  PC = x30
+                     (value of x0 returned)
+
